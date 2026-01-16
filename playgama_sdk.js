@@ -369,15 +369,26 @@ export function isVKPlatform() {
  * Открыть группу VK
  */
 export function openVKGroup() {
+  console.log('openVKGroup called, bridge:', !!bridge, 'isVK:', isVKPlatform());
+  
   if (!bridge || !isVKPlatform()) {
-    console.log('openVKGroup: not available');
+    console.log('openVKGroup: not available on this platform');
     return;
   }
   
   try {
-    bridge.social.joinCommunity();
+    // Используем ID группы из конфига
+    const groupId = 217329390;
+    console.log('Opening VK group via bridge:', groupId);
+    bridge.social.joinCommunity({ groupId });
   } catch (error) {
     console.warn('Ошибка openVKGroup:', error);
+    // Fallback - открываем через прямую ссылку
+    try {
+      window.open('https://vk.com/public217329390', '_blank');
+    } catch (e) {
+      console.warn('Не удалось открыть группу:', e);
+    }
   }
 }
 

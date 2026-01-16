@@ -580,9 +580,13 @@ export function initLayout(root) {
 async function initVKButtons() {
   const { isVKPlatform, openVKGroup, shareVK } = await import('./playgama_sdk.js');
   
+  console.log('initVKButtons: isVKPlatform =', isVKPlatform());
+  
   if (!isVKPlatform()) {
     return; // Не VK платформа - кнопки остаются скрытыми
   }
+  
+  console.log('VK platform detected, showing buttons');
   
   // Показываем кнопки
   const shareBtn = document.getElementById('vk-share-btn');
@@ -591,6 +595,7 @@ async function initVKButtons() {
   if (shareBtn) {
     shareBtn.style.display = 'flex';
     shareBtn.addEventListener('click', async () => {
+      console.log('VK share button clicked');
       playButtonSound();
       await shareVK();
     });
@@ -599,6 +604,7 @@ async function initVKButtons() {
   if (groupBtn) {
     groupBtn.style.display = 'flex';
     groupBtn.addEventListener('click', () => {
+      console.log('VK group button clicked');
       playButtonSound();
       openVKGroup();
     });
